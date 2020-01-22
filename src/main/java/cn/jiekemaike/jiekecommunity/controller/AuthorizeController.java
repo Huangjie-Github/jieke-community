@@ -2,6 +2,8 @@ package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.AccessTokenDTO;
 import cn.jiekemaike.jiekecommunity.dto.GitHubUser;
+import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
+import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.provider.GitHubProvider;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 @PropertySource("classpath:application.properties")
@@ -22,6 +25,8 @@ public class AuthorizeController {
 
     @Autowired
     private GitHubProvider gitHubProvider;
+    @Autowired
+    private UserMapper userMapper;
 
     @Value("${github.client.id}")
     private String client_id;
@@ -41,10 +46,17 @@ public class AuthorizeController {
         accessTokenDTO.setClient_secret(client_secret);
         accessTokenDTO.setRedirect_uri(redirect_uri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
-        GitHubUser user = gitHubProvider.getUser(accessToken);
-        if (user!=null){
+        GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
+        if (gitHubUser!=null){
             //登陆成功
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user",gitHubUser);
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(gitHubUser.getName());
+            user.setAccountId(String.valueOf(gitHubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
             return "redirect:/";
         }else {
             //登陆失败
