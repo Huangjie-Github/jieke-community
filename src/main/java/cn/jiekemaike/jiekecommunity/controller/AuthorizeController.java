@@ -50,7 +50,6 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirect_uri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
-
         if (gitHubUser!=null){
             //登陆成功
             User user = new User();
@@ -60,6 +59,8 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(gitHubUser.getAvatar_url());
+            System.out.println(user);
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
             return "redirect:/";

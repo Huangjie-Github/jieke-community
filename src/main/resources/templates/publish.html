@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>杰克社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+
+</head>
+<body>
+<div th:replace="~{fragment/bar :: top_bar}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h5><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h5>
+            <hr/>
+            <form th:action="@{/publish}" th:method="POST">
+                <div class="form-group">
+                    <label for="title">问题标题（简单扼要）：</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${title}" placeholder="问题标题...">
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充(必填，请参照右侧提示)：</label>
+                    <textarea class="form-control" id="description" name="description" rows="10" th:text="${description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签：</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签 以逗号分隔" th:value="${tag}">
+                </div>
+                <p class="bg-danger text-success" th:if="${msg!=null}">[[${msg}]]</p>
+                <button type="submit" class="btn btn-success btn_publish">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            <br/>
+            > 问题标题：请用精简的语言描述您发布的问题
+            <br/>
+            > 问题补充：详细补充您的问题内容，并保证问题清晰直观
+            <br/>
+            > 选择标签：选择一个或多个标签，用以逗号分隔开，每个标签不超过10个子
+            <br/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

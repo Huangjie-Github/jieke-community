@@ -1,0 +1,22 @@
+body{
+    background-color: #efefef;
+}
+.main{
+    background-color: white;
+    margin: 30px;
+}
+.btn_publish{
+    float: right;
+    margin-bottom: 15px;
+}
+.list_user_log{
+    width: 45px;
+    height: 45px;
+}
+.text_abridge{
+    width: 200px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

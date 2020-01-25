@@ -1,7 +1,11 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
+import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
+import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
+import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
+import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,16 @@ public class IndexController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionService questionService;
 
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,HttpServletResponse response){
+    public String index(HttpServletRequest request,
+                        HttpServletResponse response,
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1")Integer page,
+                        @RequestParam(value = "size",defaultValue = "2")Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies!=null)
             for (Cookie cookie : cookies){
@@ -32,6 +42,8 @@ public class IndexController {
                     break;
                 }
             }
+        PaginationDTO paginationDTO = questionService.listPage(page, size);
+        model.addAttribute("pages",paginationDTO);
         return "index";
     }
 
