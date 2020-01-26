@@ -25,20 +25,20 @@ public class QuestionService {
         paginationDTO.setListPage(listPage);
         paginationDTO.setPage(page);
 
-        if (pageSize<=5){//总页面数不足规定数目，显示全部的
+        if (pageSize<=pageButtonSize){//总页面数不足规定数目，显示全部的
             for (int i = 1;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page<=3){//显示开始的页面按钮的长度
+        }else if (page<=Math.ceil(pageButtonSize/2d)){//显示开始的页面按钮的长度
             for (int i = 1;i<=5;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page>=pageSize-2){//显示最后的页面按钮组
-            for (int i = pageSize-4;i<=pageSize;i++){
+        }else if (page>=pageSize-(pageButtonSize/2)){//显示最后的页面按钮组
+            for (int i = pageSize-pageButtonSize+1;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page<pageSize-2){//显示中间部位的按钮
-            for (int i=page-2;i<=page+2;i++){
+        }else if (page<pageSize-(pageButtonSize/2)){//显示中间部位的按钮
+            for (int i=page-(pageButtonSize/2);i<=page+(pageButtonSize/2);i++){
                 paginationDTO.getPageSize().add(i);
             }
         }
