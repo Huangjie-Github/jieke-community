@@ -4,6 +4,7 @@ import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
 import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
@@ -11,27 +12,32 @@ import java.util.ArrayList;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Value("${index.problem.pageButtonSize}")
+    private Integer pageButtonSize;
 
     public PaginationDTO listPage(Integer page,Integer size){
+
         PaginationDTO paginationDTO = new PaginationDTO();
         ArrayList<QuestionDTO> listPage = questionMapper.listPage((page-1)*size, size);//页面内容
         Integer listSize = questionMapper.listSize();//总条数
         Integer pageSize = (int) Math.ceil(listSize / (double)size);//最长页数
+        paginationDTO.setPages(pageSize);
         paginationDTO.setListPage(listPage);
         paginationDTO.setPage(page);
-        if (pageSize<=5){
+
+        if (pageSize<=5){//总页面数不足规定数目，显示全部的
             for (int i = 1;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page<=3){
+        }else if (page<=3){//显示开始的页面按钮的长度
             for (int i = 1;i<=5;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page>=pageSize-2){
+        }else if (page>=pageSize-2){//显示最后的页面按钮组
             for (int i = pageSize-4;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);
             }
-        }else if (page<pageSize-2){
+        }else if (page<pageSize-2){//显示中间部位的按钮
             for (int i=page-2;i<=page+2;i++){
                 paginationDTO.getPageSize().add(i);
             }

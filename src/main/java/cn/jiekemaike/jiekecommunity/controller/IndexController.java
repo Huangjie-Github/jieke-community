@@ -30,7 +30,7 @@ public class IndexController {
                         HttpServletResponse response,
                         Model model,
                         @RequestParam(name = "page",defaultValue = "1")Integer page,
-                        @RequestParam(value = "size",defaultValue = "2")Integer size){
+                        @RequestParam(value = "size",defaultValue = "${index.problem.pageSize}")Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies!=null)
             for (Cookie cookie : cookies){
