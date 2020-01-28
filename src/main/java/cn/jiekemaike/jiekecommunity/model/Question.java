@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Data
 public class Question {
     private Integer id;
+    private String account_id;
     private String title;
     private String description;
     private Long gmtCreate;

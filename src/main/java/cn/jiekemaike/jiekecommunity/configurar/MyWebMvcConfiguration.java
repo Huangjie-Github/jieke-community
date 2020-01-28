@@ -1,23 +1,54 @@
 package cn.jiekemaike.jiekecommunity.configurar;
 
+import cn.jiekemaike.jiekecommunity.interceptor.AllFilter;
+import cn.jiekemaike.jiekecommunity.interceptor.ProFileInterceptor;
+import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.Filter;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+
 @Configuration
-public class MyWebMvcConfiguration {
+public class MyWebMvcConfiguration implements WebMvcConfigurer {
+
+
 
     @Bean
-    public WebMvcConfigurer webMvcConfigurer(){
-        WebMvcConfigurer webMvcConfigurer = new WebMvcConfigurer() {
-            @Override
-            public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addViewController("/").setViewName("index.html");
-                registry.addViewController("/index").setViewName("index.html");
-                registry.addViewController("/index.html").setViewName("index.html");
-            }
-        };
-        return webMvcConfigurer;
-    };
+    public ProFileInterceptor proFileInterceptor(){
+        return new ProFileInterceptor();
+    }
+    @Bean
+    public HttpMessageConverter<String> httpMessageConverter(){
+        return new StringHttpMessageConverter(Charset.forName("UTF-8"));
+    }
+    @Bean
+    public FilterRegistrationBean allFilter(){
+        FilterRegistrationBean<AllFilter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
+        filterFilterRegistrationBean.setFilter(new AllFilter());
+        filterFilterRegistrationBean.addUrlPatterns("/*");
+        filterFilterRegistrationBean.setName("allFilter");
+        filterFilterRegistrationBean.setOrder(1);
+        return filterFilterRegistrationBean;
+    }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("index.html");
+        registry.addViewController("/index").setViewName("index.html");
+        registry.addViewController("/index.html").setViewName("index.html");
+    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(proFileInterceptor()).addPathPatterns("/profile/**");
+    }
+
 }

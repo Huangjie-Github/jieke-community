@@ -16,7 +16,6 @@ public class QuestionService {
     private Integer pageButtonSize;
 
     public PaginationDTO listPage(Integer page,Integer size){
-
         PaginationDTO paginationDTO = new PaginationDTO();
         ArrayList<QuestionDTO> listPage = questionMapper.listPage((page-1)*size, size);//页面内容
         Integer listSize = questionMapper.listSize();//总条数
@@ -25,6 +24,29 @@ public class QuestionService {
         paginationDTO.setListPage(listPage);
         paginationDTO.setPage(page);
 
+        pageLabel(paginationDTO,pageSize,page);
+
+        return paginationDTO;
+    }
+
+    public PaginationDTO proFilePage(Integer page,Integer size,Integer id){
+        PaginationDTO paginationDTO = new PaginationDTO();
+        ArrayList<QuestionDTO> listPage = questionMapper.proFileListPage((page-1)*size, size, id);//获取当前页显示的全部内容
+        Integer listSize = questionMapper.proFileListPageSize(id);//总条数
+        Integer pageSize = (int) Math.ceil(listSize/(double)size);//总页数
+        paginationDTO.setPage(page);
+        paginationDTO.setPages(pageSize);
+        paginationDTO.setListPage(listPage);
+
+        pageLabel(paginationDTO,pageSize,page);
+        return paginationDTO;
+    }
+
+    private void pageLabel(PaginationDTO paginationDTO, Integer pageSize,Integer page){
+        if (page<1)
+            page=1;
+        if (page>pageSize)
+            page=pageSize;
         if (pageSize<=pageButtonSize){//总页面数不足规定数目，显示全部的
             for (int i = 1;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);
@@ -53,17 +75,17 @@ public class QuestionService {
             paginationDTO.setShowPrevious(true);
             paginationDTO.setShowNext(false);
         }
-
+//        是否显示返回首页
         if (paginationDTO.getPageSize().contains(1)){
             paginationDTO.setShowFirstPage(false);
         }else {
             paginationDTO.setShowFirstPage(true);
         }
+//        是否显示返回首页尾页
         if (paginationDTO.getPageSize().contains(pageSize)){
             paginationDTO.setShowEndPage(false);
         }else {
             paginationDTO.setShowEndPage(true);
         }
-        return paginationDTO;
     }
 }

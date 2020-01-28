@@ -48,6 +48,7 @@ public class PublishController {
             model.addAttribute("msg","标签不能为空");
             return "publish";
         }
+
         User user = null;
         Cookie[] cookies = request.getCookies();
         if (cookies!=null)
@@ -69,9 +70,11 @@ public class PublishController {
             question.setDescription(description);
             question.setTag(tag);
             question.setCreator(user.getId());
+            question.setAccount_id(user.getAccount_id());
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.create(question);
+        System.out.println("User:"+user+"\n"+"Question:"+question);
             return "redirect:/";
         }
     }

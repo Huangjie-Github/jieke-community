@@ -14,12 +14,20 @@ import java.util.ArrayList;
 @Repository
 @Mapper
 public interface QuestionMapper {
-    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
+    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,account_id) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{account_id})")
     void create(Question question);
 
     @Select("select count(1) from question")
     Integer listSize();
-
     @Select("select * from question left join user on question.creator=user.id limit #{page},#{size}")
     ArrayList<QuestionDTO> listPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size);
+
+
+    @Select("select count(*) from user right join question on question.account_id=user.account_id where user.id = #{id}")
+    Integer proFileListPageSize(@Param(value = "id")Integer id);
+    @Select("select * from user right join question on question.account_id=user.account_id where user.id = #{id} limit #{page},#{size}")
+    ArrayList<QuestionDTO> proFileListPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size,@Param(value = "id")Integer id);
+
+
+
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个人中心</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+</head>
+<body>
+<div th:replace="~{fragment/bar :: top_bar}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3>[[${sectionName}]]</h3>
+            <hr/>
+            <div th:if="${section=='questions'}">
+                <div class="media main" th:each="questionDTO: ${pages.getListPage()}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatar_url()}" alt="头像">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">[[${questionDTO.title}]]</h4>
+                        <text class="text-muted text_abridge">[[${questionDTO.getDescription()}]]</text>
+                        <span class="text-muted">[[${questionDTO.comment_count}]]个回复·[[${questionDTO.view_count}]]个浏览·[[${questionDTO.like_count}]]个点赞·创建于[[${#dates.format(questionDTO.gmt_create)}]]</span>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${section=='questions'}">
+                <nav aria-label="Page navigation" >
+                    <ul class="pagination">
+                        <li>
+                            <a href="/" th:href="@{'/profile/'+${action}(page=1)}" aria-label="Previous" th:if="${pages.isShowFirstPage()}">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"  th:href="@{'/profile/'+${action}(page=${pages.getPage()-1})}" aria-label="Previous" th:if="${pages.isShowPrevious()}">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <li  th:each="index : ${pages.getPageSize()}" th:class="${pages.getPage()==index}?'active':''">
+                            <a class="active" th:href="@{'/profile/'+${action}(page=${index})}">[[${index}]]</a>
+                        </li>
+
+                        <li>
+                            <a href="#" th:href="@{'/profile/'+${action}(page=${pages.getPage()+1})}" aria-label="Next" th:if="${pages.isShowNext()}">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" th:href="@{'/profile/'+${action}(page=${pages.getPages()})}" aria-label="Next" th:if="${pages.isShowEndPage()}">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>我的标签</h3>
+            <hr/>
+            <div class="list-group">
+                <a href="#" th:href="@{'/profile/'+${disPlayText.getUrl()}}" class="list-group-item" th:classappend="${section==disPlayText.getUrl()?'active':''}" th:each="disPlayText : ${rightDisPlayText}">
+                    [[${disPlayText.getName()}]]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
