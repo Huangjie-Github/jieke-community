@@ -1,13 +1,16 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
+import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.Question;
 import cn.jiekemaike.jiekecommunity.model.User;
+import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,9 +24,18 @@ public class PublishController {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionService questionService;
 
     @GetMapping(path = "/publish")
-    public String publish(){
+    public String publish(@RequestParam(name = "id",defaultValue = "0")Integer id,
+                          Model model){
+        QuestionDTO questionDTO = questionService.findById(id);
+        if (questionDTO!=null){
+            model.addAttribute("title",questionDTO.getTitle());
+            model.addAttribute("description",questionDTO.getDescription());
+            model.addAttribute("tag",questionDTO.getTag());
+        }
 
         return "publish";
     }
@@ -74,7 +86,6 @@ public class PublishController {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.create(question);
-        System.out.println("User:"+user+"\n"+"Question:"+question);
             return "redirect:/";
         }
     }

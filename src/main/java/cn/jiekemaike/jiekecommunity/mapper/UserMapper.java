@@ -1,10 +1,7 @@
 package cn.jiekemaike.jiekecommunity.mapper;
 
 import cn.jiekemaike.jiekecommunity.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +17,10 @@ public interface UserMapper {
 
     @Select("select * from User where token = #{token}")
     User findByToken(@Param("token")String token);
+
+    @Select("select * from User where account_id = #{accountId}")
+    User findByAccountId(@Param("accountId")Long accountId);
+
+    @Update("update User set name=#{user.name},token=#{user.token},avatar_url=#{user.avatar_url} where account_id=#{user.account_id}")
+    Boolean updateUSer(@Param("user") User user);
 }

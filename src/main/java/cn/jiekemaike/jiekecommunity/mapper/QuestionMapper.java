@@ -19,7 +19,7 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")
     Integer listSize();
-    @Select("select * from question left join user on question.creator=user.id limit #{page},#{size}")
+    @Select("select * from question left join user on question.account_id=user.account_id limit #{page},#{size}")
     ArrayList<QuestionDTO> listPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size);
 
 
@@ -28,6 +28,6 @@ public interface QuestionMapper {
     @Select("select * from user right join question on question.account_id=user.account_id where user.id = #{id} limit #{page},#{size}")
     ArrayList<QuestionDTO> proFileListPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size,@Param(value = "id")Integer id);
 
-
-
+    @Select("select * from question left join user on question.account_id=user.account_id where question.id=#{id}")
+    QuestionDTO findById(@Param(value ="id") Integer id);
 }

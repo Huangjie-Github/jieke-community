@@ -24,9 +24,13 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">[[${questionDTO.title}]]</h4>
+                    <h4 class="media-heading">
+                        <a th:href="'/question/'+${questionDTO.getId()}">
+                            [[${questionDTO.title}]]
+                        </a>
+                    </h4>
                     <text class="text-muted text_abridge">[[${questionDTO.getDescription()}]]</text>
-                    <span class="text-muted">[[${questionDTO.comment_count}]]个回复·[[${questionDTO.view_count}]]个浏览·[[${questionDTO.like_count}]]个点赞·创建于[[${#dates.format(questionDTO.gmt_create)}]]</span>
+                    <span class="text-muted">[[${questionDTO.comment_count}]]个回复·[[${questionDTO.view_count}]]个浏览·[[${questionDTO.like_count}]]个点赞·创建于[[${#dates.format(questionDTO.gmt_create,'yyyy-MM-dd HH:mm:dd')}]]</span>
                 </div>
             </div>
             <nav aria-label="Page navigation" >

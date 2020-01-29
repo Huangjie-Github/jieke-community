@@ -15,33 +15,6 @@ public class QuestionService {
     @Value("${index.problem.pageButtonSize}")
     private Integer pageButtonSize;
 
-    public PaginationDTO listPage(Integer page,Integer size){
-        PaginationDTO paginationDTO = new PaginationDTO();
-        ArrayList<QuestionDTO> listPage = questionMapper.listPage((page-1)*size, size);//页面内容
-        Integer listSize = questionMapper.listSize();//总条数
-        Integer pageSize = (int) Math.ceil(listSize / (double)size);//最长页数
-        paginationDTO.setPages(pageSize);
-        paginationDTO.setListPage(listPage);
-        paginationDTO.setPage(page);
-
-        pageLabel(paginationDTO,pageSize,page);
-
-        return paginationDTO;
-    }
-
-    public PaginationDTO proFilePage(Integer page,Integer size,Integer id){
-        PaginationDTO paginationDTO = new PaginationDTO();
-        ArrayList<QuestionDTO> listPage = questionMapper.proFileListPage((page-1)*size, size, id);//获取当前页显示的全部内容
-        Integer listSize = questionMapper.proFileListPageSize(id);//总条数
-        Integer pageSize = (int) Math.ceil(listSize/(double)size);//总页数
-        paginationDTO.setPage(page);
-        paginationDTO.setPages(pageSize);
-        paginationDTO.setListPage(listPage);
-
-        pageLabel(paginationDTO,pageSize,page);
-        return paginationDTO;
-    }
-
     private void pageLabel(PaginationDTO paginationDTO, Integer pageSize,Integer page){
         if (page<1)
             page=1;
@@ -88,4 +61,34 @@ public class QuestionService {
             paginationDTO.setShowEndPage(true);
         }
     }
+
+    public PaginationDTO listPage(Integer page,Integer size){
+        PaginationDTO paginationDTO = new PaginationDTO();
+        ArrayList<QuestionDTO> listPage = questionMapper.listPage((page-1)*size, size);//页面内容
+        Integer listSize = questionMapper.listSize();//总条数
+        Integer pageSize = (int) Math.ceil(listSize / (double)size);//最长页数
+        paginationDTO.setPages(pageSize);
+        paginationDTO.setListPage(listPage);
+        paginationDTO.setPage(page);
+        pageLabel(paginationDTO,pageSize,page);
+        return paginationDTO;
+    }
+
+    public PaginationDTO proFilePage(Integer page,Integer size,Integer id){
+        PaginationDTO paginationDTO = new PaginationDTO();
+        ArrayList<QuestionDTO> listPage = questionMapper.proFileListPage((page-1)*size, size, id);//获取当前页显示的全部内容
+        Integer listSize = questionMapper.proFileListPageSize(id);//总条数
+        Integer pageSize = (int) Math.ceil(listSize/(double)size);//总页数
+        paginationDTO.setPage(page);
+        paginationDTO.setPages(pageSize);
+        paginationDTO.setListPage(listPage);
+
+        pageLabel(paginationDTO,pageSize,page);
+        return paginationDTO;
+    }
+
+    public QuestionDTO findById(Integer id){
+        return questionMapper.findById(id);
+    }
+
 }

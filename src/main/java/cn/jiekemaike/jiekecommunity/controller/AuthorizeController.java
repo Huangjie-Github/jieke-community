@@ -5,8 +5,10 @@ import cn.jiekemaike.jiekecommunity.dto.GitHubUser;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.provider.GitHubProvider;
+import cn.jiekemaike.jiekecommunity.service.UserService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -28,7 +30,9 @@ public class AuthorizeController {
     @Autowired
     private GitHubProvider gitHubProvider;
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
+    @Autowired
+    private AccessTokenDTO accessTokenDTO;
 
     @Value("${github.client.id}")
     private String client_id;
@@ -42,7 +46,6 @@ public class AuthorizeController {
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response) {
-        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(client_id);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setState(state);
@@ -50,22 +53,28 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirect_uri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
+
         if (gitHubUser!=null){
-            //登陆成功
-            User user = new User();
-            String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setName(gitHubUser.getName());
-            user.setAccount_id(String.valueOf(gitHubUser.getId()));
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
-            user.setAvatar_url(gitHubUser.getAvatar_url());
-            userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
+            User user = userService.updateUser(gitHubUser);
+            response.addCookie(new Cookie("token",user.getToken()));
             return "redirect:/";
         }else {
             //登陆失败
             return "redirect:/";
         }
+    }
+    @GetMapping("/outLogin")
+    public String outLogin(HttpServletRequest request,
+                           HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies){
+            if ("token".equals(cookie.getName())){
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+                break;
+            }
+        }
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
     }
 }
