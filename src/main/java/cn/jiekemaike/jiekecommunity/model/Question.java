@@ -1,8 +1,6 @@
 package cn.jiekemaike.jiekecommunity.model;
 
 import lombok.Data;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Data
 public class Question {
@@ -10,8 +8,8 @@ public class Question {
     private String account_id;
     private String title;
     private String description;
-    private Long gmtCreate;
-    private Long gmtModified;
+    private Long gmt_create;
+    private Long gmt_modified;
     private Integer creator;
     private Integer commentCount;
     private Integer viewCount;

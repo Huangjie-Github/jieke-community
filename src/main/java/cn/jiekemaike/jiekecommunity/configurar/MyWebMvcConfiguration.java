@@ -1,31 +1,24 @@
 package cn.jiekemaike.jiekecommunity.configurar;
 
 import cn.jiekemaike.jiekecommunity.interceptor.AllFilter;
-import cn.jiekemaike.jiekecommunity.interceptor.ProFileInterceptor;
-import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.jiekemaike.jiekecommunity.interceptor.UserLoginInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.servlet.Filter;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
 @Configuration
 public class MyWebMvcConfiguration implements WebMvcConfigurer {
 
-
-
     @Bean
-    public ProFileInterceptor proFileInterceptor(){
-        return new ProFileInterceptor();
+    public UserLoginInterceptor userLoginInterceptor(){
+        return new UserLoginInterceptor();
     }
     @Bean
     public HttpMessageConverter<String> httpMessageConverter(){
@@ -48,7 +41,7 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(proFileInterceptor()).addPathPatterns("/profile/**");
+        registry.addInterceptor(userLoginInterceptor()).addPathPatterns("/profile/**","/publish/**");
     }
 
 }

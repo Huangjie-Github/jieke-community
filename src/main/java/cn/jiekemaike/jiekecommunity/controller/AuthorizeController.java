@@ -2,13 +2,9 @@ package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.AccessTokenDTO;
 import cn.jiekemaike.jiekecommunity.dto.GitHubUser;
-import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.provider.GitHubProvider;
 import cn.jiekemaike.jiekecommunity.service.UserService;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -19,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.UUID;
 
 @Controller
 @PropertySource("classpath:application.properties")

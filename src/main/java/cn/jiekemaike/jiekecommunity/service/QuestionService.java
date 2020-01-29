@@ -3,6 +3,7 @@ package cn.jiekemaike.jiekecommunity.service;
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
 import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
+import cn.jiekemaike.jiekecommunity.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -91,4 +92,11 @@ public class QuestionService {
         return questionMapper.findById(id);
     }
 
+    public void createOrUpdate(Question question) {
+        if (question.getId()==null){
+            questionMapper.create(question);
+        }else {
+            questionMapper.updateQuestion(question);
+        }
+    }
 }

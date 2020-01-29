@@ -2,19 +2,15 @@ package cn.jiekemaike.jiekecommunity.mapper;
 
 import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 @Repository
 @Mapper
 public interface QuestionMapper {
-    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,account_id) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{account_id})")
+    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,account_id) values(#{title},#{description},#{gmt_create},#{gmt_modified},#{creator},#{tag},#{account_id})")
     void create(Question question);
 
     @Select("select count(1) from question")
@@ -30,4 +26,7 @@ public interface QuestionMapper {
 
     @Select("select * from question left join user on question.account_id=user.account_id where question.id=#{id}")
     QuestionDTO findById(@Param(value ="id") Integer id);
+
+    @Update("update Question set title=#{question.title},description=#{question.description},gmt_modified=#{question.gmt_modified},tag=#{question.tag} where id=#{question.id}")
+    Boolean updateQuestion(@Param(value = "question") Question question);
 }

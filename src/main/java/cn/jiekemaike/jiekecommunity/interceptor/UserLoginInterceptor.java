@@ -3,15 +3,13 @@ package cn.jiekemaike.jiekecommunity.interceptor;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ProFileInterceptor implements HandlerInterceptor {
+public class UserLoginInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserMapper userMapper;
@@ -22,7 +20,6 @@ public class ProFileInterceptor implements HandlerInterceptor {
         if (cookies!=null)
             for (Cookie cookie : cookies){
                 if ("token".equals(cookie.getName())){
-                    System.out.println("测试："+userMapper);
                     user = userMapper.findByToken(cookie.getValue());
                     if (user!=null){
                         request.getSession().setAttribute("user",user);
@@ -31,8 +28,7 @@ public class ProFileInterceptor implements HandlerInterceptor {
                     break;
                 }
             }
-
-        response.getWriter().println("请登陆以后再跳转");
+        response.getWriter().println("请登陆以后进行相关操作");
         return false;
     }
 
