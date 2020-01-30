@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("prototype")
 public class AccessTokenDTO {
-    private String client_id;
-    private String client_secret;
+    private String clientId;
+    private String clientSecret;
     private String code;
-    private String redirect_uri;
+    private String redirectUri;
     private String state;
 }

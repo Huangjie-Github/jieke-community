@@ -22,10 +22,10 @@ public class QuestionController {
                             HttpServletRequest request){
         QuestionDTO questionDTO = questionService.findById(id);
         model.addAttribute("questionDTO", questionDTO);
-        String account_id = questionDTO.getAccount_id();
+        String account_id = questionDTO.getAccountId();
         User user = (User) request.getSession().getAttribute("user");
         if (user!=null){
-            model.addAttribute("editText",account_id.equals(user.getAccount_id()));
+            model.addAttribute("editText",account_id.equals(user.getAccountId()));
         }else {
             model.addAttribute("editText",false);
         }

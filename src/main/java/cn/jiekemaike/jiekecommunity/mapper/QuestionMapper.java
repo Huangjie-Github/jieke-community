@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @Repository
 @Mapper
 public interface QuestionMapper {
-    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,account_id) values(#{title},#{description},#{gmt_create},#{gmt_modified},#{creator},#{tag},#{account_id})")
+    @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag,account_id) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{accountId})")
     void create(Question question);
 
     @Select("select count(1) from question")
@@ -27,6 +27,6 @@ public interface QuestionMapper {
     @Select("select * from question left join user on question.account_id=user.account_id where question.id=#{id}")
     QuestionDTO findById(@Param(value ="id") Integer id);
 
-    @Update("update Question set title=#{question.title},description=#{question.description},gmt_modified=#{question.gmt_modified},tag=#{question.tag} where id=#{question.id}")
+    @Update("update Question set title=#{question.title},description=#{question.description},gmt_modified=#{question.gmtModified},tag=#{question.tag} where id=#{question.id}")
     Boolean updateQuestion(@Param(value = "question") Question question);
 }

@@ -20,14 +20,14 @@ public class UserService {
             user = new User();
             user.setToken(token);
             user.setName(gitHubUser.getName());
-            user.setAccount_id(String.valueOf(gitHubUser.getId()));
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modified(user.getGmt_create());
-            user.setAvatar_url(gitHubUser.getAvatar_url());
+            user.setAccountId(String.valueOf(gitHubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
         }else {
-            user.setGmt_modified(System.currentTimeMillis());
+            user.setGmtModified(System.currentTimeMillis());
             user.setName(gitHubUser.getName());
-            user.setAvatar_url(gitHubUser.getAvatar_url());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
             user.setToken(token);
             userMapper.updateUSer(user);
         }

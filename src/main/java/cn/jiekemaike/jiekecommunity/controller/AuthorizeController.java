@@ -39,11 +39,11 @@ public class AuthorizeController {
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response) {
-        accessTokenDTO.setClient_id(client_id);
+        accessTokenDTO.setClientId(client_id);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setState(state);
-        accessTokenDTO.setClient_secret(client_secret);
-        accessTokenDTO.setRedirect_uri(redirect_uri);
+        accessTokenDTO.setClientSecret(client_secret);
+        accessTokenDTO.setRedirectUri(redirect_uri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
 

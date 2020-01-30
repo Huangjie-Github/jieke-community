@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into User(name,account_id,token,gmt_create,gmt_modified,avatar_url) value(#{name},#{account_id},#{token},#{gmt_create},#{gmt_modified},#{avatar_url})")
+    @Insert("insert into User(name,account_id,token,gmt_create,gmt_modified,avatar_url) value(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl})")
     void insert(User user);
 
     @Select("select * from User where token = #{token}")
@@ -21,6 +21,6 @@ public interface UserMapper {
     @Select("select * from User where account_id = #{accountId}")
     User findByAccountId(@Param("accountId")Long accountId);
 
-    @Update("update User set name=#{user.name},token=#{user.token},avatar_url=#{user.avatar_url} where account_id=#{user.account_id}")
+    @Update("update User set name=#{user.name},token=#{user.token},avatar_url=#{user.avatarUrl} where accountId=#{user.accountId}")
     Boolean updateUSer(@Param("user") User user);
 }

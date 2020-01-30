@@ -20,7 +20,7 @@
             <div class="media main" th:each="questionDTO: ${pages.getListPage()}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatar_url()}" alt="头像">
+                        <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatarUrl()}" alt="头像">
                     </a>
                 </div>
                 <div class="media-body">
@@ -30,7 +30,7 @@
                         </a>
                     </h4>
                     <text class="text-muted text_abridge">[[${questionDTO.getDescription()}]]</text>
-                    <span class="text-muted">[[${questionDTO.comment_count}]]个回复·[[${questionDTO.view_count}]]个浏览·[[${questionDTO.like_count}]]个点赞·创建于[[${#dates.format(questionDTO.gmt_create,'yyyy-MM-dd HH:mm:dd')}]]</span>
+                    <span class="text-muted">[[${questionDTO.commentCount}]]个回复·[[${questionDTO.viewCount}]]个浏览·[[${questionDTO.likeCount}]]个点赞·创建于[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
                 </div>
             </div>
             <nav aria-label="Page navigation" >

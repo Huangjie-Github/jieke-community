@@ -18,8 +18,8 @@
             <hr/>
             <span class="text-muted">
                 <span>作者：[[${questionDTO.name}]]&nbsp;/&nbsp;</span>
-                <span>浏览数：[[${questionDTO.view_count}]]&nbsp;/&nbsp;</span>
-                <span>创建时间：[[${#dates.format(questionDTO.gmt_create)}]]</span>
+                <span>浏览数：[[${questionDTO.viewCount}]]&nbsp;/&nbsp;</span>
+                <span>创建时间：[[${#dates.format(questionDTO.gmtCreate)}]]</span>
             </span>
             <hr/>
             <div>
@@ -37,14 +37,14 @@
             <div class="media">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object list_user_log img-circle" th:src="@{${questionDTO.getAvatar_url()}}" alt="头像">
+                        <img class="media-object list_user_log img-circle" th:src="@{${questionDTO.getAvatarUrl()}}" alt="头像">
                     </a>
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">[[${questionDTO.name}]]</h4>
-                    <span>[[${questionDTO.comment_count}]]个回复&nbsp;/&nbsp;</span>
-                    <span>[[${questionDTO.view_count}]]个浏览</span><br>
-                    <span>创建时间：[[${#dates.format(questionDTO.gmt_create,'yyyy-MM-dd HH:mm:dd')}]]</span>
+                    <span>[[${questionDTO.commentCount}]]个回复&nbsp;/&nbsp;</span>
+                    <span>[[${questionDTO.viewCount}]]个浏览</span><br>
+                    <span>创建时间：[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
                 </div>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>

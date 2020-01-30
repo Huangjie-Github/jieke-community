@@ -73,7 +73,7 @@ public class PublishController {
             question.setDescription(description);
             question.setTag(tag);
             question.setCreator(user.getId());
-            question.setAccount_id(user.getAccount_id());
+            question.setAccountId(user.getAccountId());
             questionService.createOrUpdate(question);
             return "redirect:/";
         }

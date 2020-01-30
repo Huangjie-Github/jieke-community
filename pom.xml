@@ -76,17 +76,18 @@
             <artifactId>jquery</artifactId>
             <version>3.4.1</version>
         </dependency>
+<!--        JSON包-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
         </dependency>
+<!--        半热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>2.2.4.RELEASE</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -104,6 +105,11 @@
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
                         <version>8.0.17</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.4.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
