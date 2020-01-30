@@ -94,8 +94,11 @@ public class QuestionService {
 
     public void createOrUpdate(Question question) {
         if (question.getId()==null){
+            question.setGmt_create(System.currentTimeMillis());
+            question.setGmt_modified(question.getGmt_create());
             questionMapper.create(question);
         }else {
+            question.setGmt_modified(System.currentTimeMillis());
             questionMapper.updateQuestion(question);
         }
     }

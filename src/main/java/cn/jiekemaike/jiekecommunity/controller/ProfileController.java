@@ -2,7 +2,7 @@ package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
-import cn.jiekemaike.jiekecommunity.model.ProFileRightTabButton;
+import cn.jiekemaike.jiekecommunity.dto.ProFileRightTabButtonDTO;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
@@ -29,25 +28,11 @@ public class ProfileController {
                           @RequestParam(value = "size",defaultValue = "${index.problem.pageSize}")Integer size,
                           HttpServletRequest request,Model model){
 
-//        User user = null;
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies!=null)
-//            for (Cookie cookie:cookies){
-//                if ("token".equals(cookie.getName())){
-//                    user = userMapper.findByToken(cookie.getValue());
-//                    if (user!=null)
-//                        request.getSession().setAttribute("user",user);
-//                    break;
-//                }
-//            }
-//        if (user==null)
-//            return "redirect:/";
-
         User user = (User) request.getSession().getAttribute("user");
 
-        ArrayList<ProFileRightTabButton> list = new ArrayList<>();
-        list.add(new ProFileRightTabButton("我的问题","questions"));
-        list.add(new ProFileRightTabButton("最新回复","replies"));
+        ArrayList<ProFileRightTabButtonDTO> list = new ArrayList<>();
+        list.add(new ProFileRightTabButtonDTO("我的问题","questions"));
+        list.add(new ProFileRightTabButtonDTO("最新回复","replies"));
         model.addAttribute("rightDisPlayText",list);
 
         if ("questions".equals(action)){
