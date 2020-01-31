@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>404异常</title>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1>错误异常</h1>
+        <p>[[${message}]]</p>
+        <p><a class="btn btn-primary btn-lg" href="#" th:href="@{/}" role="button">回到主页</a></p>
+    </div>
+</body>
+</html>

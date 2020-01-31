@@ -12,3 +12,8 @@
 [Git](https://git-scm.com/downloads)  
 [VP](https://www.visual-paradigm.com)  
 [Maven](https://archive.apache.org/dist/maven/maven-3/3.5.4/)  
+
+
+## 命令  
+mybatis-generator：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+mybatis-generator：mvn mybatis-generator:generate

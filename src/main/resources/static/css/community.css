@@ -20,3 +20,6 @@ body{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.jumbotron{
+    margin: 50px;
+}

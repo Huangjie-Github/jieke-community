@@ -39,22 +39,20 @@ public class AuthorizeController {
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response) {
-        accessTokenDTO.setClientId(client_id);
+        accessTokenDTO.setClient_id(client_id);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setState(state);
-        accessTokenDTO.setClientSecret(client_secret);
-        accessTokenDTO.setRedirectUri(redirect_uri);
+        accessTokenDTO.setClient_secret(client_secret);
+        accessTokenDTO.setRedirect_uri(redirect_uri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
 
         if (gitHubUser!=null){
             User user = userService.updateUser(gitHubUser);
             response.addCookie(new Cookie("token",user.getToken()));
-            return "redirect:/";
-        }else {
-            //登陆失败
-            return "redirect:/";
+
         }
+        return "redirect:/";
     }
     @GetMapping("/outLogin")
     public String outLogin(HttpServletRequest request,

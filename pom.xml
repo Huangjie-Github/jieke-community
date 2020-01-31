@@ -60,7 +60,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -76,13 +75,13 @@
             <artifactId>jquery</artifactId>
             <version>3.4.1</version>
         </dependency>
-<!--        JSON包-->
+        <!--        JSON包-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
         </dependency>
-<!--        半热部署-->
+        <!--        半热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -100,6 +99,15 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>

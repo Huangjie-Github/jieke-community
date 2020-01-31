@@ -21,6 +21,7 @@ public class QuestionController {
                             Model model,
                             HttpServletRequest request){
         QuestionDTO questionDTO = questionService.findById(id);
+        questionService.updateView(id);
         model.addAttribute("questionDTO", questionDTO);
         String account_id = questionDTO.getAccountId();
         User user = (User) request.getSession().getAttribute("user");

@@ -1,8 +1,10 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
-import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.dto.ProFileRightTabButtonDTO;
+import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
+import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
+import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +45,10 @@ public class ProfileController {
         }else if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
+        }else {
+            throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
         }
 
-        System.out.println("dbahsdba");
         return "profile";
     }
 }

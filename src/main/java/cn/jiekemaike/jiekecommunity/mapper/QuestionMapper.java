@@ -29,4 +29,8 @@ public interface QuestionMapper {
 
     @Update("update Question set title=#{question.title},description=#{question.description},gmt_modified=#{question.gmtModified},tag=#{question.tag} where id=#{question.id}")
     Boolean updateQuestion(@Param(value = "question") Question question);
+
+    @Update("update Question set view_count = view_count+1 where id = #{id}")
+    Boolean updateView(@Param("id") Integer id);
+
 }

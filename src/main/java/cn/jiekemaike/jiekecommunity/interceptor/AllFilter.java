@@ -1,6 +1,5 @@
 package cn.jiekemaike.jiekecommunity.interceptor;
 
-import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import java.io.IOException;
 
@@ -14,6 +13,8 @@ public class AllFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         servletRequest.setCharacterEncoding("Utf-8");
         servletResponse.setContentType("text/html;charset=UTF-8");
+
+
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

@@ -2,6 +2,8 @@ package cn.jiekemaike.jiekecommunity.service;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
 import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
+import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
+import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
 import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,10 @@ public class QuestionService {
     public PaginationDTO listPage(Integer page,Integer size){
         PaginationDTO paginationDTO = new PaginationDTO();
         ArrayList<QuestionDTO> listPage = questionMapper.listPage((page-1)*size, size);//页面内容
+
+        if (listPage.size()==0)
+            throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
+
         Integer listSize = questionMapper.listSize();//总条数
         Integer pageSize = (int) Math.ceil(listSize / (double)size);//最长页数
         paginationDTO.setPages(pageSize);
@@ -78,6 +84,9 @@ public class QuestionService {
     public PaginationDTO proFilePage(Integer page,Integer size,Integer id){
         PaginationDTO paginationDTO = new PaginationDTO();
         ArrayList<QuestionDTO> listPage = questionMapper.proFileListPage((page-1)*size, size, id);//获取当前页显示的全部内容
+        if (listPage.size()==0)
+            throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
+
         Integer listSize = questionMapper.proFileListPageSize(id);//总条数
         Integer pageSize = (int) Math.ceil(listSize/(double)size);//总页数
         paginationDTO.setPage(page);
@@ -89,7 +98,10 @@ public class QuestionService {
     }
 
     public QuestionDTO findById(Integer id){
-        return questionMapper.findById(id);
+        QuestionDTO questionDTO = questionMapper.findById(id);
+        if (questionDTO==null)
+            throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
+        return questionDTO;
     }
 
     public void createOrUpdate(Question question) {
@@ -101,5 +113,9 @@ public class QuestionService {
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.updateQuestion(question);
         }
+    }
+
+    public void updateView(Integer id) {
+        questionMapper.updateView(id);
     }
 }

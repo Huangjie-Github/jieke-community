@@ -1,10 +1,9 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
-import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
-import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
+import cn.jiekemaike.jiekecommunity.model.UserExample;
 import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -36,9 +36,12 @@ public class IndexController {
             for (Cookie cookie : cookies){
                 if ("token".equals(cookie.getName())){
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user!=null)
-                        request.getSession().setAttribute("user",user);
+                    UserExample userExample = new UserExample();
+                    userExample.createCriteria().andTokenEqualTo(token);
+                    List<User> users = userMapper.selectByExample(userExample);
+//                    User user = userMapper.findByToken(token);
+                    if (users.size()!=0)
+                        request.getSession().setAttribute("user",users.get(0));
                     break;
                 }
             }
