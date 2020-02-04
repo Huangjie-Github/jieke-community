@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <base th:href="@{/}">
     <title>[[${questionDTO.getTitle()}]]</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/community.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
@@ -14,39 +16,60 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h3>[[${questionDTO.getTitle()}]]</h3>
-            <hr/>
-            <span class="text-muted">
+            <div class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12">
+                <h3>[[${questionDTO.getTitle()}]]</h3>
+                <hr class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12"/>
+                <span class="text-muted">
                 <span>作者：[[${questionDTO.name}]]&nbsp;/&nbsp;</span>
                 <span>浏览数：[[${questionDTO.viewCount}]]&nbsp;/&nbsp;</span>
                 <span>创建时间：[[${#dates.format(questionDTO.gmtCreate)}]]</span>
             </span>
-            <hr/>
-            <div>
-                [[${questionDTO.getDescription()}]]
+                <hr class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12"/>
+                <div>
+                    [[${questionDTO.getDescription()}]]
+                </div>
+                <hr class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12"/>
+                <hr class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12"/>
+                <a th:href="@{'/publish/'+${questionDTO.getId()}}" th:if="${editText}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑
+                </a>
             </div>
-            <hr/>
-            <hr/>
-            <a th:href="@{'/publish/'+${questionDTO.getId()}}" th:if="${editText}">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑
-            </a>
-
+            <hr class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12"/>
+            <div class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object list_user_log img-rounded" th:src="@{${questionDTO.getAvatarUrl()}}" alt="头像">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">[[${questionDTO.name}]]</h4>
+                    </div>
+                </div>
+                <input type="hidden" id="question_id" th:value="${questionDTO.getId()}">
+                <textarea class="form-control comment" id="comment_content" rows="6"></textarea>
+                <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+            </div>
         </div>
+
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>发起人</h3>
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object list_user_log img-circle" th:src="@{${questionDTO.getAvatarUrl()}}" alt="头像">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">[[${questionDTO.name}]]</h4>
-                    <span>[[${questionDTO.commentCount}]]个回复&nbsp;/&nbsp;</span>
-                    <span>[[${questionDTO.viewCount}]]个浏览</span><br>
-                    <span>创建时间：[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
+            <div class="col-lg-12 col-md-12 col-sm-1a2 col-xs-12">
+                <h3>发起人</h3>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object list_user_log img-circle" th:src="@{${questionDTO.getAvatarUrl()}}" alt="头像">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">[[${questionDTO.name}]]</h4>
+                        <span>[[${questionDTO.commentCount}]]个回复&nbsp;/&nbsp;</span>
+                        <span>[[${questionDTO.viewCount}]]个浏览</span><br>
+                        <span>创建时间：[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
+                    </div>
                 </div>
             </div>
+
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>相关问题</h4>

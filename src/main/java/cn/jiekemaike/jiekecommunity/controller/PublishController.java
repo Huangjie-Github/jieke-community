@@ -44,7 +44,7 @@ public class PublishController {
     public String doPublish(@RequestParam(name = "title",required = false)String title,
                             @RequestParam(name = "description",required = false)String description,
                             @RequestParam(name = "tag",required = false)String tag,
-                            @RequestParam(name = "id",required = false)Integer id,
+                            @RequestParam(name = "id",required = false)Long id,
                             HttpServletRequest request,
                             Model model){
         model.addAttribute("title",title);

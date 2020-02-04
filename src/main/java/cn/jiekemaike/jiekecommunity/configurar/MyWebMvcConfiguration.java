@@ -1,6 +1,7 @@
 package cn.jiekemaike.jiekecommunity.configurar;
 
 import cn.jiekemaike.jiekecommunity.interceptor.AllFilter;
+import cn.jiekemaike.jiekecommunity.interceptor.UserInterceptor;
 import cn.jiekemaike.jiekecommunity.interceptor.UserLoginInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,10 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer {
     @Bean
     public UserLoginInterceptor userLoginInterceptor(){
         return new UserLoginInterceptor();
+    }
+    @Bean
+    public UserInterceptor userInterceptor(){
+        return new UserInterceptor();
     }
     @Bean
     public HttpMessageConverter<String> httpMessageConverter(){
@@ -42,6 +47,7 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userLoginInterceptor()).addPathPatterns("/profile/**","/publish/**");
+        registry.addInterceptor(userInterceptor()).addPathPatterns("/**");
     }
 
 }

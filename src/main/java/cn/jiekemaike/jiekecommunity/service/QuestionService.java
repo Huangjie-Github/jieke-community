@@ -81,7 +81,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO proFilePage(Integer page,Integer size,Integer id){
+    public PaginationDTO proFilePage(Integer page,Integer size,Long id){
         PaginationDTO paginationDTO = new PaginationDTO();
         ArrayList<QuestionDTO> listPage = questionMapper.proFileListPage((page-1)*size, size, id);//获取当前页显示的全部内容
         if (listPage.size()==0)

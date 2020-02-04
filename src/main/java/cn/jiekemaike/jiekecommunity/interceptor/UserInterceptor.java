@@ -1,7 +1,5 @@
 package cn.jiekemaike.jiekecommunity.interceptor;
 
-import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
-import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.model.UserExample;
@@ -14,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class UserLoginInterceptor implements HandlerInterceptor {
-
+public class UserInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -24,13 +21,12 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         if (cookies!=null)
             for (Cookie cookie : cookies){
                 if ("token".equals(cookie.getName())){
+                    String token = cookie.getValue();
                     UserExample userExample = new UserExample();
-                    userExample.createCriteria().andTokenEqualTo(cookie.getValue());
+                    userExample.createCriteria().andTokenEqualTo(token);
                     List<User> users = userMapper.selectByExample(userExample);
-//                    user = userMapper.findByToken(cookie.getValue());
                     if (users.size()>0){
                         request.getSession().setAttribute("user",users.get(0));
-                        return true;
                     }else {
                         Cookie cookie1 = new Cookie("token", null);
                         cookie1.setMaxAge(0);
@@ -40,7 +36,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                     break;
                 }
             }
-        throw new CustomizeException(CustomizeErrorCode.WEI_DENG_LU);
+        return true;
     }
 
     @Override

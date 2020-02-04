@@ -60,6 +60,7 @@ public class AuthorizeController {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies){
             if ("token".equals(cookie.getName())){
+                cookie.setValue(null);
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
                 break;

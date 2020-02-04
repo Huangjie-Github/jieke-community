@@ -31,20 +31,6 @@ public class IndexController {
                         Model model,
                         @RequestParam(name = "page",defaultValue = "1")Integer page,
                         @RequestParam(value = "size",defaultValue = "${index.problem.pageSize}")Integer size){
-        Cookie[] cookies = request.getCookies();
-        if (cookies!=null)
-            for (Cookie cookie : cookies){
-                if ("token".equals(cookie.getName())){
-                    String token = cookie.getValue();
-                    UserExample userExample = new UserExample();
-                    userExample.createCriteria().andTokenEqualTo(token);
-                    List<User> users = userMapper.selectByExample(userExample);
-//                    User user = userMapper.findByToken(token);
-                    if (users.size()!=0)
-                        request.getSession().setAttribute("user",users.get(0));
-                    break;
-                }
-            }
         PaginationDTO paginationDTO = questionService.listPage(page, size);
         model.addAttribute("pages",paginationDTO);
         return "index";
