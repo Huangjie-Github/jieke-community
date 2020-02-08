@@ -31,7 +31,7 @@ public class PublishController {
         return "publish";
     }
     @GetMapping(path = "/publish/{id}")
-    public String edit(@PathVariable(name = "id") Integer id,
+    public String edit(@PathVariable(name = "id") Long id,
                           Model model){
         QuestionDTO questionDTO = questionService.findById(id);
         model.addAttribute("title",questionDTO.getTitle());

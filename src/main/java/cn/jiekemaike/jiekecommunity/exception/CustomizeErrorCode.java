@@ -8,7 +8,8 @@ public enum  CustomizeErrorCode implements ICustomizeErrorCode {
     SYS_EXCEPTION(2004, "ControllerAdvice->未知的异常"),
     TYPE_PARAM_WROHG(2005, "评论类型错误或者不存在"),
     COMMENT_NOT_FOUND(2006, "您所回复的评论不存在了"),
-    QUESTION_NOT_FOUND(2006, "您所回复的评论不存在了");
+    QUESTION_NOT_FOUND(2007, "您所回复的评论不存在了"),
+    COMMENT_CONTENT_NOT_NULL(2008,"评论内容不能为空");
 
 
     CustomizeErrorCode(Integer code, String message) {

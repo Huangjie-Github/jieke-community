@@ -1,6 +1,6 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
-import cn.jiekemaike.jiekecommunity.dto.CommentDTO;
+import cn.jiekemaike.jiekecommunity.dto.CommentCreateDTO;
 import cn.jiekemaike.jiekecommunity.dto.ResultDTO;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
 import cn.jiekemaike.jiekecommunity.model.Comment;
@@ -21,21 +21,23 @@ public class CommentController {
     private CommentService commentService;
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request){
+        if (commentCreateDTO.getContent().length()==0||commentCreateDTO.getContent()==null)
+            return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_CONTENT_NOT_NULL);
+
         User user = (User) request.getSession().getAttribute("user");
         if (user==null)
             return ResultDTO.errorOf(CustomizeErrorCode.WEI_DENG_LU);
         System.out.println("用户");
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setType(commentDTO.getType());
-        comment.setContent(commentDTO.getContent());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setType(commentCreateDTO.getType());
+        comment.setContent(commentCreateDTO.getContent());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
-        comment.setCommentator(1L);
+        comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-
         commentService.insert(comment);
         return ResultDTO.okOf();
     }

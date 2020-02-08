@@ -25,13 +25,13 @@ public interface QuestionMapper {
     ArrayList<QuestionDTO> proFileListPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size,@Param(value = "id")Long id);
 
     @Select("select * from question left join user on question.account_id=user.account_id where question.id=#{id}")
-    QuestionDTO findById(@Param(value ="id") Integer id);
+    QuestionDTO findById(@Param(value ="id") Long id);
 
     @Update("update Question set title=#{question.title},description=#{question.description},gmt_modified=#{question.gmtModified},tag=#{question.tag} where id=#{question.id}")
     Boolean updateQuestion(@Param(value = "question") Question question);
 
     @Update("update Question set view_count = view_count+1 where id = #{id}")
-    Boolean updateView(@Param("id") Integer id);
+    Boolean updateView(@Param("id") Long id);
 
     @Select("select * from question where id = #{id}")
     Question selectById(@Param("id") Long id);

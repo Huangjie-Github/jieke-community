@@ -19,6 +19,9 @@ function post() {
         success: function (response) {
             if (response.code == 200){
                 $("#comment_content").val("");
+                history.go(0)
+            }else if (response.code == 2008){
+                alert(response.message)
             }else{
                 if (response.code==2002){
                     var isAccepted = confirm(response.message);

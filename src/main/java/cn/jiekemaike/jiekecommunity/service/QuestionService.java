@@ -97,7 +97,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO findById(Integer id){
+    public QuestionDTO findById(Long id){
         QuestionDTO questionDTO = questionMapper.findById(id);
         if (questionDTO==null)
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
@@ -115,7 +115,7 @@ public class QuestionService {
         }
     }
 
-    public void updateView(Integer id) {
+    public void updateView(Long id) {
         questionMapper.updateView(id);
     }
 }
