@@ -2,19 +2,50 @@ $(document).ready(function () {
 
 })
 
+/**
+ * 展开二级评论
+ */
+function collapseComments(e) {
+    var id = $(e).data("id");
+    var sub_comment = $("#comment-"+id);
+    sub_comment.toggleClass("in");
+    if (sub_comment.hasClass("in")){
+        $.getJSON( "comment/"+id, function( data ) {
+            console.log(data.data)
+            var subCommentContainer = $("#comment-"+id);
+            $.each(data.data.reverse(), function(index ,comment) {
+                console.log(comment);
+                var c = $("<div/>",{
+                    "class":"col-lg-12 col-md-12 col-sm-1a2 col-xs-12",
+                    html: comment.content+"<hr class=\"col-lg-12 col-md-12 col-sm-1a2 col-xs-12\"/>"
+                });
+                subCommentContainer.prepend(c);
+            });
+        });
+    }
+}
+
+/**
+ * 一级评论提交的POST请求
+ */
 function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
-    console.log(questionId)
-    console.log(content)
+    comment2Target(questionId,1,content);
+}
+function comment2Target(targetId,type,content) {
+    if (!content.trim()){
+        alert("前端校验->回复内容不能为空~~");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "comment",
         contentType: "application/json;charset=UTF-8",
         data: JSON.stringify({
-            "parentId": questionId,
+            "parentId": targetId,
             "content": content,
-            "type": 1
+            "type": type
         }),
         success: function (response) {
             if (response.code == 200){
@@ -36,4 +67,9 @@ function post() {
         },
         dataType: "json"
     });
+}
+function comment(e) {
+    var commentId = $(e).data("id");
+    var content = $("#input-"+commentId).val();
+    comment2Target(commentId,2,content);
 }

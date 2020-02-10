@@ -21,7 +21,8 @@ public interface QuestionMapper {
 
     @Select("select count(*) from user right join question on question.account_id=user.account_id where user.id = #{id}")
     Integer proFileListPageSize(@Param(value = "id")Long id);
-    @Select("select * from user right join question on question.account_id=user.account_id where user.id = #{id} limit #{page},#{size}")
+
+    @Select("select * from question left join user on question.account_id=user.account_id where user.id = #{id} limit #{page},#{size}")
     ArrayList<QuestionDTO> proFileListPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size,@Param(value = "id")Long id);
 
     @Select("select * from question left join user on question.account_id=user.account_id where question.id=#{id}")

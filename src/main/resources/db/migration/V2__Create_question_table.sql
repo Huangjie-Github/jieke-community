@@ -1,10 +1,10 @@
 CREATE TABLE question(
-    id int auto_increment not null ,
+    id bigint auto_increment not null ,
     title varchar(50) not null ,
     description varchar(2000) not null ,
     gmt_create bigint not null ,
     gmt_modified bigint not null ,
-    creator int not null ,
+    creator bigint not null ,
     comment_count int default 0 not null ,
     view_count int default 0 not null ,
     like_count int default 0 not null ,

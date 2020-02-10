@@ -38,12 +38,25 @@ body{
 
 }
 .commentDTOS{
-    border-bottom: 1px  #eee inset;
+    /*border-bottom: 1px  #eee solid;*/
     margin-bottom: 10px;
 }
 .menu .icon{
     margin-right: 10px;
+    color: #999999;
 }
+/*一级评论图标变换*/
 .menu .icon:hover{
     color: #499ef3;
 }
+/*二级评论区的框*/
+.sub-comments{
+    padding-top: 15px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+/*二级评论提交*/
+.btn-discuss{
+    margin: 10px 0;
+}
+

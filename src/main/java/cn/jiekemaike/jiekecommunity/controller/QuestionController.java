@@ -1,8 +1,8 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
-import cn.jiekemaike.jiekecommunity.dto.CommentCreateDTO;
 import cn.jiekemaike.jiekecommunity.dto.CommentDTO;
 import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
+import cn.jiekemaike.jiekecommunity.enums.CommentTypeEnum;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.service.CommentService;
 import cn.jiekemaike.jiekecommunity.service.QuestionService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,7 +29,7 @@ public class QuestionController {
         QuestionDTO questionDTO = questionService.findById(id);
         questionService.updateView(id);
         model.addAttribute("questionDTO", questionDTO);
-        List<CommentDTO> commentDTOS =  commentService.listByQuestionId(id);
+        List<CommentDTO> commentDTOS =  commentService.listByQuestionId(id, CommentTypeEnum.QUESTION);
         model.addAttribute("commentDTOS",commentDTOS);
         String account_id = questionDTO.getAccountId();
         User user = (User) request.getSession().getAttribute("user");
