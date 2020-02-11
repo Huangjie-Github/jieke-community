@@ -2,6 +2,9 @@ $(document).ready(function () {
 
 })
 
+
+
+
 /**
  * 展开二级评论
  */
@@ -10,18 +13,45 @@ function collapseComments(e) {
     var sub_comment = $("#comment-"+id);
     sub_comment.toggleClass("in");
     if (sub_comment.hasClass("in")){
-        $.getJSON( "comment/"+id, function( data ) {
-            console.log(data.data)
-            var subCommentContainer = $("#comment-"+id);
-            $.each(data.data.reverse(), function(index ,comment) {
-                console.log(comment);
-                var c = $("<div/>",{
-                    "class":"col-lg-12 col-md-12 col-sm-1a2 col-xs-12",
-                    html: comment.content+"<hr class=\"col-lg-12 col-md-12 col-sm-1a2 col-xs-12\"/>"
+        if (sub_comment.children().length<=1){
+            $.getJSON( "comment/"+id, function( data ) {
+                console.log(data.data)
+                var subCommentContainer = $("#comment-"+id);
+                $.each(data.data.reverse(), function(index ,comment) {
+                    var mediaLeftElement = $("<div/>",{
+                        "class":"media-left"
+                    }).append($("<img/>",{
+                        "class":"media-object list_user_log img-rounded",
+                        "src":comment.user.avatarUrl,
+                        "alt":"头像"
+                    }));
+                    var mediaBodyElement = $("<div/>",{
+                        "class":"media-body"
+                    }).append($("<h4/>",{
+                        "class":"media-heading",
+                        "text":comment.user.name
+                    })).append($("<div/>",{
+                        "text":comment.content
+                    })).append($("<span/>",{
+                        "class":"pull-right",
+                        // "text":new Date(comment.gmtCreate).format('yyyy-MM-dd')
+                        "text":moment(comment.gmtCreate).format('YYYY-MM-DD')
+                    }));
+
+                    var mediaElement = $("<div/>",{
+                        "class":"media"
+                    }).append(mediaLeftElement).append(mediaBodyElement).append($("<hr/>",{
+                        "class":"col-lg-12 col-md-12 col-sm-1a2 col-xs-12"
+                    }));
+
+                    var commentElement = $("<div/>",{
+                        "class":"col-lg-12 col-md-12 col-sm-1a2 col-xs-12"
+                    }).append(mediaElement);
+
+                    subCommentContainer.prepend(commentElement);
                 });
-                subCommentContainer.prepend(c);
             });
-        });
+        }
     }
 }
 

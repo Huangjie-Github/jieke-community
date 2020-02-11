@@ -4,6 +4,7 @@ import cn.jiekemaike.jiekecommunity.dto.CommentDTO;
 import cn.jiekemaike.jiekecommunity.enums.CommentTypeEnum;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
+import cn.jiekemaike.jiekecommunity.mapper.CommentExtMapper;
 import cn.jiekemaike.jiekecommunity.mapper.CommentMapper;
 import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
@@ -28,6 +29,8 @@ public class CommentService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Transactional
     public void insert(@RequestBody Comment comment) {
@@ -46,13 +49,18 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             commentMapper.insert(comment);
             questionMapper.updateCommentCount(comment.getParentId());
-        }
-        if (comment.getType() == CommentTypeEnum.COMMENT.getType()){
+        }else {
             //回复评论
             Comment commentdb = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (commentdb ==null)
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             commentMapper.insert(comment);
+
+            //增加评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         }
     }
 

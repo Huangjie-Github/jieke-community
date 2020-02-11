@@ -15,7 +15,7 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")
     Integer listSize();
-    @Select("select * from question left join user on question.account_id=user.account_id limit #{page},#{size}")
+    @Select("select * from question left join user on question.account_id=user.account_id order by question.gmt_modified desc limit #{page},#{size}")
     ArrayList<QuestionDTO> listPage(@Param(value = "page") Integer page, @Param(value = "size") Integer size);
 
 

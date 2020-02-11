@@ -23,6 +23,7 @@ public class QuestionService {
             page=1;
         if (page>pageSize)
             page=pageSize;
+
         if (pageSize<=pageButtonSize){//总页面数不足规定数目，显示全部的
             for (int i = 1;i<=pageSize;i++){
                 paginationDTO.getPageSize().add(i);

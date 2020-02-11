@@ -7,5 +7,6 @@ create table comment(
     gmt_modified bigint not null comment '更新时间',
     like_count bigint not null comment '点赞数',
     content varchar(2000) not null comment '评论内容',
+    comment_count int default 0 comment '评论数',
     primary key (id)
 )engine=innodb default charset=utf8;
