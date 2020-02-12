@@ -22,7 +22,7 @@ public class CoutomizeExceptionHandler {
     @ExceptionHandler(Exception.class)
     ModelAndView handle(HttpServletRequest request, Throwable ex, HttpServletResponse response, Model model) {
         String contentType = request.getContentType();
-        System.out.println("测试："+contentType);
+        contentType = contentType == null ? "" : contentType;
         if ("application/json".equals(contentType.split(";")[0])){
             ResultDTO resultDTO = null;
             if (ex instanceof CustomizeException){

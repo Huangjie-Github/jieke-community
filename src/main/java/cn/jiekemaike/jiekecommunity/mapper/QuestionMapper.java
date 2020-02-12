@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Mapper
@@ -39,5 +40,8 @@ public interface QuestionMapper {
 
     @Update("update question set comment_count = comment_count+1 where id = #{id}")
     Boolean updateCommentCount(@Param("id")Long id);
+
+    @Select("select * from question left join user on question.account_id = user.account_id where question.id != #{id} and question.tag regexp #{tag}")
+    List<QuestionDTO> selectRegexp(@Param("id")Long id, @Param("tag")String tag);
 
 }

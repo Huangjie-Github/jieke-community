@@ -128,7 +128,12 @@
             </div>
             <!--            相关问题部分-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>相关问题</h4>
+                <h4 class="bold">相关问题</h4>
+                <ul style="padding-left: 0px">
+                    <li class="comment li-hover" th:each="issues:${relatedIssues}">
+                        <a th:href="@{'/question/'+${issues.getId()}}">[[${issues.title}]]</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

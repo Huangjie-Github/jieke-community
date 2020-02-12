@@ -64,3 +64,15 @@ body{
     margin-right: 10px;
 }
 
+.li-hover:hover{
+    color: #155b97;
+    cursor: pointer;
+}
+.li-hover{
+    list-style-type: none;
+    padding-left: 0px;
+    font-size: 13px;
+}
+.bold{
+    font-weight: bold;
+}

@@ -12,7 +12,7 @@
 
     <script type="application/javascript">
         var closable = window.localStorage.getItem("closable");
-        if (closable){
+        if (closable) {
             window.close();
             window.localStorage.removeItem("closable");
         }
@@ -29,7 +29,8 @@
             <div class="media main" th:each="questionDTO: ${pages.getListPage()}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatarUrl()}" alt="头像">
+                        <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatarUrl()}"
+                             alt="头像">
                     </a>
                 </div>
                 <div class="media-body">
@@ -39,10 +40,10 @@
                         </a>
                     </h4>
                     <text class="text-muted text_abridge">[[${questionDTO.getDescription()}]]</text>
-                    <span class="text-muted">[[${questionDTO.commentCount}]]个回复·[[${questionDTO.viewCount}]]个浏览·[[${questionDTO.likeCount}]]个点赞·创建于[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
+                    <span class="text-muted" style="font-size: 12px;">[[${questionDTO.commentCount}]]个回复·[[${questionDTO.viewCount}]]个浏览·[[${questionDTO.likeCount}]]个点赞·创建于[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
                 </div>
             </div>
-            <nav aria-label="Page navigation" >
+            <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
                         <a href="/" th:href="@{/(page=1)}" aria-label="Previous" th:if="${pages.isShowFirstPage()}">
@@ -50,21 +51,24 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"  th:href="@{/(page=${pages.getPage()-1})}" aria-label="Previous" th:if="${pages.isShowPrevious()}">
+                        <a href="#" th:href="@{/(page=${pages.getPage()-1})}" aria-label="Previous"
+                           th:if="${pages.isShowPrevious()}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
-                    <li  th:each="index : ${pages.getPageSize()}" th:class="${pages.getPage()==index}?'active':''">
+                    <li th:each="index : ${pages.getPageSize()}" th:class="${pages.getPage()==index}?'active':''">
                         <a class="active" th:href="@{/(page=${index})}">[[${index}]]</a>
                     </li>
 
                     <li>
-                        <a href="#" th:href="@{/(page=${pages.getPage()+1})}" aria-label="Next" th:if="${pages.isShowNext()}">
+                        <a href="#" th:href="@{/(page=${pages.getPage()+1})}" aria-label="Next"
+                           th:if="${pages.isShowNext()}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" th:href="@{/(page=${pages.getPages()})}" aria-label="Next" th:if="${pages.isShowEndPage()}">
+                        <a href="#" th:href="@{/(page=${pages.getPages()})}" aria-label="Next"
+                           th:if="${pages.isShowEndPage()}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
