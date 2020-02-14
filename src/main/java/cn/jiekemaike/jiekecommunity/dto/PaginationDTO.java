@@ -1,5 +1,6 @@
 package cn.jiekemaike.jiekecommunity.dto;
 
+import cn.jiekemaike.jiekecommunity.model.Question;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <base th:href="@{/}">
-    <title>个人中心</title>
+    <title>[[${sectionName}]]</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
@@ -17,7 +17,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h3>[[${sectionName}]]</h3>
             <hr/>
-            <div th:if="${section=='questions'}">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='questions'}">
                 <div class="media main" th:each="questionDTO: ${pages.getListPage()}">
                     <div class="media-left">
                         <a href="#">
@@ -43,8 +43,6 @@
                         </span>
                     </div>
                 </div>
-            </div>
-            <div th:if="${section=='questions'}">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
@@ -77,6 +75,8 @@
                         </li>
                     </ul>
                 </nav>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='replies'}">
 
             </div>
         </div>
@@ -84,10 +84,13 @@
             <h3>我的标签</h3>
             <hr/>
             <div class="list-group">
-                <a href="#" th:href="@{'/profile/'+${disPlayText.getUrl()}}" class="list-group-item"
-                   th:classappend="${section==disPlayText.getUrl()?'active':''}"
-                   th:each="disPlayText : ${rightDisPlayText}">
-                    [[${disPlayText.getName()}]]
+                <a href="#" th:href="@{'/profile/questions'}" class="list-group-item"
+                   th:classappend="${section=='questions'?'active':''}">
+                    我的问题
+                </a>
+                <a href="#" th:href="@{'/profile/replies'}" class="list-group-item"
+                   th:classappend="${section=='replies'?'active':''}">
+                    最新回复<span class="badge">[[${unreadCount}]]</span>
                 </a>
             </div>
         </div>

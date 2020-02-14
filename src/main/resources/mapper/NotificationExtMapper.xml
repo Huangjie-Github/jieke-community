@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jiekemaike.jiekecommunity.mapper.NotificationExtMapper">
+  <resultMap id="BaseResultMap" type="cn.jiekemaike.jiekecommunity.model.Notification">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="notifier" jdbcType="BIGINT" property="notifier" />
+    <result column="receiver" jdbcType="BIGINT" property="receiver" />
+    <result column="outerId" jdbcType="BIGINT" property="outerid" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <select id="proFileListPage" parameterType="java.lang.Object" resultMap="BaseResultMap">
+    select * from notification where receiver = #{id,jdbcType=BIGINT} limit #{offSet,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+  </select>
+</mapper>

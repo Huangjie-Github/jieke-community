@@ -2,12 +2,11 @@ package cn.jiekemaike.jiekecommunity.service;
 
 import cn.jiekemaike.jiekecommunity.dto.CommentDTO;
 import cn.jiekemaike.jiekecommunity.enums.CommentTypeEnum;
+import cn.jiekemaike.jiekecommunity.enums.NotificationStatusEnum;
+import cn.jiekemaike.jiekecommunity.enums.NotificationTypeEnum;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
-import cn.jiekemaike.jiekecommunity.mapper.CommentExtMapper;
-import cn.jiekemaike.jiekecommunity.mapper.CommentMapper;
-import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
-import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
+import cn.jiekemaike.jiekecommunity.mapper.*;
 import cn.jiekemaike.jiekecommunity.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,8 @@ public class CommentService {
     private UserMapper userMapper;
     @Autowired
     private CommentExtMapper commentExtMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     @Transactional
     public void insert(@RequestBody Comment comment) {
@@ -49,6 +50,8 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             commentMapper.insert(comment);
             questionMapper.updateCommentCount(comment.getParentId());
+            //创建通知
+            createNotify(comment,question.getCreator(),NotificationTypeEnum.REPLY_QUESTION.getType());
         }else {
             //回复评论
             Comment commentdb = commentMapper.selectByPrimaryKey(comment.getParentId());
@@ -61,7 +64,19 @@ public class CommentService {
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.incCommentCount(parentComment);
+            //创建通知
+            createNotify(comment, commentdb.getCommentator(),NotificationTypeEnum.REPLY_COMMENT.getType());
         }
+    }
+
+    private void createNotify(@RequestBody Comment comment, Long receiver, int type) {
+        Notification notification= new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(type);
+        notification.setOuterid(comment.getParentId());
+        notification.setNotifier(comment.getId());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
     }
 
     @Transactional

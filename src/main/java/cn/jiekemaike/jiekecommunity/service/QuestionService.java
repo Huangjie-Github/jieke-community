@@ -8,12 +8,14 @@ import cn.jiekemaike.jiekecommunity.mapper.QuestionMapper;
 import cn.jiekemaike.jiekecommunity.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@PropertySource("classpath:/application.properties")
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
@@ -25,6 +27,7 @@ public class QuestionService {
             page = 1;
         if (page > pageSize)
             page = pageSize;
+
 
         if (pageSize <= pageButtonSize) {//总页面数不足规定数目，显示全部的
             for (int i = 1; i <= pageSize; i++) {

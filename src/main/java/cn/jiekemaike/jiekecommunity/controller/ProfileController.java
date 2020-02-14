@@ -1,11 +1,10 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
-import cn.jiekemaike.jiekecommunity.dto.ProFileRightTabButtonDTO;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
-import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
+import cn.jiekemaike.jiekecommunity.service.NotificationService;
 import cn.jiekemaike.jiekecommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 public class ProfileController {
     @Autowired
     private QuestionService questionService;
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
@@ -30,10 +30,6 @@ public class ProfileController {
 
         User user = (User) request.getSession().getAttribute("user");
 
-        ArrayList<ProFileRightTabButtonDTO> list = new ArrayList<>();
-        list.add(new ProFileRightTabButtonDTO("我的问题","questions"));
-        list.add(new ProFileRightTabButtonDTO("最新回复","replies"));
-        model.addAttribute("rightDisPlayText",list);
 
         if ("questions".equals(action)){
             model.addAttribute("section","questions");
@@ -43,6 +39,9 @@ public class ProfileController {
         }else if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
+
+//            PaginationDTO paginationDTO = notificationService.proFilePage(page,size,user.getId());
+//            model.addAttribute("pages",paginationDTO);
         }else {
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
         }
