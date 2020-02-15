@@ -46,8 +46,8 @@ public class MyWebMvcConfiguration implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userLoginInterceptor()).addPathPatterns("/profile/**","/publish/**");
-        registry.addInterceptor(userInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(userLoginInterceptor()).addPathPatterns("/profile/**","/publish/**","/notification/**");
+        registry.addInterceptor(userInterceptor()).addPathPatterns("/**").excludePathPatterns("classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/");
     }
 
 }

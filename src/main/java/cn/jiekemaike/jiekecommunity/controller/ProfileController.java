@@ -1,6 +1,8 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
+import cn.jiekemaike.jiekecommunity.dto.NotificationDTO;
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
+import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeErrorCode;
 import cn.jiekemaike.jiekecommunity.exception.CustomizeException;
 import cn.jiekemaike.jiekecommunity.model.User;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProfileController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
     private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
@@ -27,21 +31,20 @@ public class ProfileController {
                           @RequestParam(name = "page",defaultValue = "1")Integer page,
                           @RequestParam(value = "size",defaultValue = "${index.problem.pageSize}")Integer size,
                           HttpServletRequest request,Model model){
-
         User user = (User) request.getSession().getAttribute("user");
-
 
         if ("questions".equals(action)){
             model.addAttribute("section","questions");
             model.addAttribute("sectionName","我的问题");
-            PaginationDTO paginationDTO = questionService.proFilePage(page,size,user.getId());
+            PaginationDTO<QuestionDTO> paginationDTO = questionService.proFilePage(page,size,user.getId());
             model.addAttribute("pages",paginationDTO);
         }else if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
-
-//            PaginationDTO paginationDTO = notificationService.proFilePage(page,size,user.getId());
-//            model.addAttribute("pages",paginationDTO);
+            PaginationDTO<NotificationDTO> paginationDTO = notificationService.proFilePage(page,size,user.getId());
+            model.addAttribute("pages",paginationDTO);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("unreadCount",unreadCount);
         }else {
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
         }

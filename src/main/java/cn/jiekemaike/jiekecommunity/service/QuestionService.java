@@ -22,7 +22,7 @@ public class QuestionService {
     @Value("${index.problem.pageButtonSize}")
     private Integer pageButtonSize;
 
-    private void pageLabel(PaginationDTO paginationDTO, Integer pageSize, Integer page) {
+    private void pageLabel(PaginationDTO<QuestionDTO> paginationDTO, Integer pageSize, Integer page) {
         if (page < 1)
             page = 1;
         if (page > pageSize)
@@ -46,8 +46,12 @@ public class QuestionService {
                 paginationDTO.getPageSize().add(i);
             }
         }
-
-        if (page == 1) {
+        if (pageSize==1){
+            paginationDTO.setShowPrevious(false);//上一行
+            paginationDTO.setShowNext(false);
+            paginationDTO.setShowFirstPage(false);
+            paginationDTO.setShowEndPage(false);
+        }else if (page == 1) {
             paginationDTO.setShowPrevious(false);//上一行
             paginationDTO.setShowNext(true);//下一行
         } else if (page > 1 && page < pageSize) {
@@ -71,8 +75,8 @@ public class QuestionService {
         }
     }
 
-    public PaginationDTO listPage(Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+    public PaginationDTO<QuestionDTO> listPage(Integer page, Integer size) {
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         ArrayList<QuestionDTO> listPage = questionMapper.listPage((page - 1) * size, size);//页面内容
 
         if (listPage.size() == 0)
@@ -81,14 +85,14 @@ public class QuestionService {
         Integer listSize = questionMapper.listSize();//总条数
         Integer pageSize = (int) Math.ceil(listSize / (double) size);//最长页数
         paginationDTO.setPages(pageSize);
-        paginationDTO.setListPage(listPage);
+        paginationDTO.setDate(listPage);
         paginationDTO.setPage(page);
         pageLabel(paginationDTO, pageSize, page);
         return paginationDTO;
     }
 
-    public PaginationDTO proFilePage(Integer page, Integer size, Long id) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+    public PaginationDTO<QuestionDTO> proFilePage(Integer page, Integer size, Long id) {
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         if (questionMapper.proFileListPage((page - 1) * size, size, id).size() == 0)
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
 
@@ -96,7 +100,7 @@ public class QuestionService {
         Integer pageSize = (int) Math.ceil(listSize / (double) size);//总页数
         paginationDTO.setPage(page);
         paginationDTO.setPages(pageSize);
-        paginationDTO.setListPage(questionMapper.proFileListPage((page - 1) * size, size, id));
+        paginationDTO.setDate(questionMapper.proFileListPage((page - 1) * size, size, id));
 
         pageLabel(paginationDTO, pageSize, page);
         return paginationDTO;

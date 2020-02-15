@@ -18,7 +18,7 @@
             <h3>[[${sectionName}]]</h3>
             <hr/>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='questions'}">
-                <div class="media main" th:each="questionDTO: ${pages.getListPage()}">
+                <div class="media main" th:each="questionDTO: ${pages.getDate()}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object list_user_log img-circle" th:src="${questionDTO.getAvatarUrl()}"
@@ -43,6 +43,22 @@
                         </span>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='replies'}">
+                <div class="media main" th:each="notificationDTO: ${pages.getDate()}">
+                    <div class="media-body">
+                        <p class="media-heading">
+                            <span>[[${notificationDTO.notifierName}]]&nbsp;&nbsp;[[${notificationDTO.typeName}]]</span>
+                            <a th:href="@{'/notification/'+${notificationDTO.getId()}}">
+                                &nbsp;&nbsp;[[${notificationDTO.outerTitle}]]
+                            </a>
+                            <span class="label label-info" th:if="${notificationDTO.status==0}">未处理</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+<!--            翻页控件-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
@@ -76,10 +92,8 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='replies'}">
-
-            </div>
         </div>
+
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>我的标签</h3>
             <hr/>

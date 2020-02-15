@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CommentService {
     private NotificationMapper notificationMapper;
 
     @Transactional
-    public void insert(@RequestBody Comment comment) {
+    public void insert(@RequestBody Comment comment,User user) {
         if (comment.getParentId()==null||comment.getParentId()==0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -51,32 +52,40 @@ public class CommentService {
             commentMapper.insert(comment);
             questionMapper.updateCommentCount(comment.getParentId());
             //创建通知
-            createNotify(comment,question.getCreator(),NotificationTypeEnum.REPLY_QUESTION.getType());
+            createNotify(comment,question.getCreator(),user.getName(),question.getTitle(),NotificationTypeEnum.REPLY_QUESTION.getType(),question.getId());
         }else {
             //回复评论
             Comment commentdb = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (commentdb ==null)
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
-            commentMapper.insert(comment);
 
+            Question question = questionMapper.selectById(commentdb.getParentId());
+            if (question==null)
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+
+            commentMapper.insert(comment);
             //增加评论数
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.incCommentCount(parentComment);
             //创建通知
-            createNotify(comment, commentdb.getCommentator(),NotificationTypeEnum.REPLY_COMMENT.getType());
+            createNotify(comment, commentdb.getCommentator(),user.getName(),question.getTitle(),NotificationTypeEnum.REPLY_COMMENT.getType(),question.getId());
+//            createNotify(comment, commentdb.getCommentator(),user.getName(),commentdb.getContent(),NotificationTypeEnum.REPLY_COMMENT.getType());
         }
     }
 
-    private void createNotify(@RequestBody Comment comment, Long receiver, int type) {
+    private void createNotify(@RequestBody Comment comment, Long receiver, String notifierName, String outerTitle, int type, Long outerId) {
         Notification notification= new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(type);
-        notification.setOuterid(comment.getParentId());
-        notification.setNotifier(comment.getId());
+        notification.setOuterid(outerId);
+        notification.setNotifier(comment.getCommentator());
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
         notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package cn.jiekemaike.jiekecommunity.controller;
 
 import cn.jiekemaike.jiekecommunity.dto.PaginationDTO;
+import cn.jiekemaike.jiekecommunity.dto.QuestionDTO;
 import cn.jiekemaike.jiekecommunity.mapper.UserMapper;
 import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.model.UserExample;
@@ -31,7 +32,7 @@ public class IndexController {
                         Model model,
                         @RequestParam(name = "page",defaultValue = "1")Integer page,
                         @RequestParam(value = "size",defaultValue = "${index.problem.pageSize}")Integer size){
-        PaginationDTO paginationDTO = questionService.listPage(page, size);
+        PaginationDTO<QuestionDTO> paginationDTO = questionService.listPage(page, size);
         model.addAttribute("pages",paginationDTO);
         return "index";
     }

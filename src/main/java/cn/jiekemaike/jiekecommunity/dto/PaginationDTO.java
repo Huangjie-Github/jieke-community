@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PaginationDTO {
-    private ArrayList<QuestionDTO> listPage;//所有Item的内容的集合
+public class PaginationDTO<T> {
+    private List<T> date;//所有Item的内容的集合
     private boolean showPrevious;//是否显示前一页按钮
     private boolean showFirstPage;//是否显示第一页按钮
     private boolean showNext;//是否显示下一页按钮
