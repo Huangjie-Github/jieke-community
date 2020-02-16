@@ -7,9 +7,16 @@
     <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
-    <script type="text/javascript" th:src="@{/js/community.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
+
+
+<!--    mackdown editormd-->
+    <link rel="stylesheet" th:href="@{/webjars/editor.md/1.5.0/css/editormd.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/editor.md/1.5.0/editormd.js}"></script>
+<!--    自建文件-->
+    <script type="text/javascript" th:src="@{/js/community.js}"></script>
     <link rel="stylesheet" th:href="@{/css/community.css}"/>
+
 
 </head>
 <body>
@@ -25,9 +32,9 @@
                     <label for="title">问题标题（简单扼要）：</label>
                     <input type="text" class="form-control" id="title" name="title" autocomplete="off" th:value="${title}" placeholder="问题标题...">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="publish-editor">
                     <label for="description">问题补充(必填，请参照右侧提示)：</label>
-                    <textarea class="form-control" id="description" name="description" rows="10" th:text="${description}"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" th:text="${description}" style="display:none;"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签：</label>

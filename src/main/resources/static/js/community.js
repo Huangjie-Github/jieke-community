@@ -1,3 +1,21 @@
+$(document).ready(function () {
+    $(function() {
+        editormd("publish-editor", {
+            width  : "100%",
+            height : 360,
+            path   : "webjars/editor.md/1.5.0/lib/",
+            watch  : false,//两个格断开
+            delay  :0,
+            placeholder:"请输入问题描述"
+        });
+    });
+
+    $(function() {
+        editormd.markdownToHTML("mackdown-editormd-html", {});
+    });
+
+})
+
 /**
  * 展开二级评论
  * @param e 控件本身

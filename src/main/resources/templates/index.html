@@ -8,6 +8,14 @@
     <script type="text/javascript" th:src="@{/webjars/popper.js/1.15.0/umd/popper.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}"/>
+
+    <!--    mackdown editormd -->
+    <link rel="stylesheet" th:href="@{/webjars/editor.md/1.5.0/css/editormd.preview.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/editor.md/1.5.0/editormd.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/editor.md/1.5.0/lib/marked.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/editor.md/1.5.0/lib/prettify.min.js}"></script>
+    <!--    自建文件-->
+    <script type="text/javascript" th:src="@{/js/community.js}"></script>
     <link rel="stylesheet" th:href="@{/css/community.css}"/>
 
     <script type="application/javascript">
@@ -35,12 +43,15 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">
-                        <a th:href="@{'/question/'+${questionDTO.getId()}}">
-                            [[${questionDTO.title}]]
-                        </a>
+                        <a th:href="@{'/question/'+${questionDTO.getId()}}">[[${questionDTO.title}]]</a>
                     </h4>
                     <text class="text-muted text_abridge">[[${questionDTO.getDescription()}]]</text>
-                    <span class="text-muted" style="font-size: 12px;">[[${questionDTO.commentCount}]]个回复·[[${questionDTO.viewCount}]]个浏览·[[${questionDTO.likeCount}]]个点赞·创建于[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]</span>
+                    <span class="text-muted" style="font-size: 12px;">
+                        [[${questionDTO.commentCount}]]个回复·
+                        [[${questionDTO.viewCount}]]个浏览·
+                        [[${questionDTO.likeCount}]]个点赞·
+                        创建于[[${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm:dd')}]]
+                    </span>
                 </div>
             </div>
             <nav aria-label="Page navigation">
