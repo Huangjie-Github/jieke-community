@@ -6,12 +6,15 @@ $(document).ready(function () {
             path   : "webjars/editor.md/1.5.0/lib/",
             watch  : false,//两个格断开
             delay  :0,
-            placeholder:"请输入问题描述"
+            placeholder:"请输入问题描述",
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "imagefile/upload",
         });
     });
 
     $(function() {
-        editormd.markdownToHTML("mackdown-editormd-html", {});
+            editormd.markdownToHTML("mackdown-editormd-html", {});
     });
 
 })

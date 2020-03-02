@@ -50,7 +50,6 @@ public class AuthorizeController {
         if (gitHubUser!=null){
             User user = userService.updateUser(gitHubUser);
             response.addCookie(new Cookie("token",user.getToken()));
-
         }
         return "redirect:/";
     }

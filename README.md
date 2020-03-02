@@ -8,6 +8,7 @@
 [GitHub OAuth Apps](https://developer.github.com/apps/building-github-apps/)  
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-handlermapping-interceptor)  
 [MvnRepository](https://mvnrepository.com/)
+
 ### 工具
 [Git](https://git-scm.com/downloads)  
 [VP](https://www.visual-paradigm.com)  
@@ -15,6 +16,7 @@
 [flywaydb](https://flywaydb.org/)  
 [MyBatis Generator](http://mybatis.org/generator/)  
 [MackDown Editor](https://github.com/pandao/editor.md)  
+
 ### 命令  
 - mybatis-generator:  
    - mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate  
