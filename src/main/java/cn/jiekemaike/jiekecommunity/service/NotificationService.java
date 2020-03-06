@@ -123,6 +123,7 @@ public class NotificationService {
     @Transactional
     public NotificationDTO read(Long id, User user) {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
+
         if (notification==null)
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
         if (!Objects.equals(notification.getReceiver(),user.getId()))
