@@ -30,6 +30,7 @@ public class UserService {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
+            userMapper.insert(user);
         }else {
             user = users.get(0);
             user.setGmtModified(System.currentTimeMillis());
