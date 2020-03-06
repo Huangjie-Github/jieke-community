@@ -125,7 +125,6 @@ public class NotificationService {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
         if (notification==null)
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
-        System.out.println("测试UserId："+notification.getReceiver()+"->"+user.getId());
         if (!Objects.equals(notification.getReceiver(),user.getId()))
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
 

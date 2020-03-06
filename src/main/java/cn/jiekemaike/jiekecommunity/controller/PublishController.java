@@ -20,10 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private QuestionService questionService;
 
     @GetMapping(path = "/publish")

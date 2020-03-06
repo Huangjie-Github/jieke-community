@@ -27,7 +27,6 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                     UserExample userExample = new UserExample();
                     userExample.createCriteria().andTokenEqualTo(cookie.getValue());
                     List<User> users = userMapper.selectByExample(userExample);
-//                    user = userMapper.findByToken(cookie.getValue());
                     if (users.size()>0){
                         request.getSession().setAttribute("user",users.get(0));
                         return true;

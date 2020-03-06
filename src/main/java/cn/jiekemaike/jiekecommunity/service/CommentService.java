@@ -71,7 +71,6 @@ public class CommentService {
             commentExtMapper.incCommentCount(parentComment);
             //创建通知
             createNotify(comment, commentdb.getCommentator(),user.getName(),question.getTitle(),NotificationTypeEnum.REPLY_COMMENT.getType(),question.getId());
-//            createNotify(comment, commentdb.getCommentator(),user.getName(),commentdb.getContent(),NotificationTypeEnum.REPLY_COMMENT.getType());
         }
     }
 

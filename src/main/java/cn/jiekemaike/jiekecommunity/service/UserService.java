@@ -6,6 +6,7 @@ import cn.jiekemaike.jiekecommunity.model.User;
 import cn.jiekemaike.jiekecommunity.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,12 +16,12 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Transactional
     public User updateUser(GitHubUser gitHubUser){
         User user = null;
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(String.valueOf(gitHubUser.getId()));
         List<User> users = userMapper.selectByExample(userExample);
-//        User user = userMapper.findByAccountId(gitHubUser.getId());
         String token = UUID.randomUUID().toString();
         if (users.size()==0){
             user = new User();
@@ -38,10 +39,8 @@ public class UserService {
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
             user.setToken(token);
             UserExample userExample1 = new UserExample();
-
             userExample1.createCriteria().andAccountIdEqualTo(user.getAccountId());
             userMapper.updateByExample(user, userExample1);
-//            userMapper.updateUSer(user);
         }
         return user;
     }
