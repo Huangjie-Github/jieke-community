@@ -79,8 +79,10 @@ public class QuestionService {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         ArrayList<QuestionDTO> listPage = questionMapper.listPage((page - 1) * size, size);//页面内容
 
-        if (listPage.size() == 0)
+        if (listPage.size() == 0) {
+            System.out.println("页面问题");
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
+        }
 
         Integer listSize = questionMapper.listSize();//总条数
         Integer pageSize = (int) Math.ceil(listSize / (double) size);//最长页数
@@ -93,8 +95,9 @@ public class QuestionService {
 
     public PaginationDTO<QuestionDTO> proFilePage(Integer page, Integer size, Long id) {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
-        if (questionMapper.proFileListPage((page - 1) * size, size, id).size() == 0)
+        if (questionMapper.proFileListPage((page - 1) * size, size, id).size() == 0) {
             throw new CustomizeException(CustomizeErrorCode.YE_MIAN_BU_CUN_ZAI);
+        }
 
         Integer listSize = questionMapper.proFileListPageSize(id);//总条数
         Integer pageSize = (int) Math.ceil(listSize / (double) size);//总页数

@@ -34,12 +34,15 @@ public class NotificationService {
 
 
     private void pageLabel(PaginationDTO<NotificationDTO> paginationDTO, Integer pageSize, Integer page) {
-        if (page < 1)
+        if (page < 1) {
             page = 1;
-        if (page > pageSize)
+        }
+        if (page > pageSize) {
             page = pageSize;
-        if (pageSize<1)
+        }
+        if (pageSize<1) {
             pageSize=1;
+        }
 
         if (pageSize <= pageButtonSize) {//总页面数不足规定数目，显示全部的
             for (int i = 1; i <= pageSize; i++) {
@@ -124,10 +127,12 @@ public class NotificationService {
     public NotificationDTO read(Long id, User user) {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
 
-        if (notification==null)
+        if (notification==null) {
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
-        if (!Objects.equals(notification.getReceiver(),user.getId()))
+        }
+        if (!Objects.equals(notification.getReceiver(),user.getId())) {
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
+        }
 
         notification.setStatus(NotificationStatusEnum.READ.getStatus());
         notificationMapper.updateByPrimaryKey(notification);

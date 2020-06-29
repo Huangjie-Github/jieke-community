@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author Administrator
+ */
 @Service
 public class CommentService {
 
@@ -57,12 +59,14 @@ public class CommentService {
         }else {
             //回复评论
             Comment commentdb = commentMapper.selectByPrimaryKey(comment.getParentId());
-            if (commentdb ==null)
+            if (commentdb ==null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
+            }
 
             Question question = questionMapper.selectById(commentdb.getParentId());
-            if (question==null)
+            if (question==null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
 
             commentMapper.insert(comment);
             //增加评论数
@@ -94,7 +98,9 @@ public class CommentService {
         commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(type.getType());
         commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
-        if (comments.size()==0) return new ArrayList<>();
+        if (comments.size()==0) {
+            return new ArrayList<>();
+        }
 //      获取评论人以及ID
         Set<Long> collect = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
         UserExample userExample = new UserExample();

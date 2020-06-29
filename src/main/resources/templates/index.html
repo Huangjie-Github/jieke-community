@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <base th:href="@{/}">
     <title>杰克社区</title>
@@ -19,7 +19,7 @@
     <link rel="stylesheet" th:href="@{/css/community.css}"/>
 
     <script type="application/javascript">
-        var closable = window.localStorage.getItem("closable");
+        let closable = window.localStorage.getItem("closable");
         if (closable) {
             window.close();
             window.localStorage.removeItem("closable");

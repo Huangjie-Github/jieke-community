@@ -25,12 +25,14 @@ public class CommentController {
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request){
 
-        if (StringUtils.isBlank(commentCreateDTO.getContent())||commentCreateDTO==null)
+        if (StringUtils.isBlank(commentCreateDTO.getContent())||commentCreateDTO==null) {
             return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_CONTENT_NOT_NULL);
+        }
 
         User user = (User) request.getSession().getAttribute("user");
-        if (user==null)
+        if (user==null) {
             return ResultDTO.errorOf(CustomizeErrorCode.WEI_DENG_LU);
+        }
 
         Comment comment = new Comment();
         comment.setParentId(commentCreateDTO.getParentId());
